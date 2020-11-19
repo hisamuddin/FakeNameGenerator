@@ -1,0 +1,91 @@
+﻿@model Gadgets.Core.User.Result
+@{
+    ViewData["Title"] = "Create";
+}
+
+@if (Model != null)
+{
+    <style type="text/css">
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px;
+            /* The height is 400 pixels */
+            width: 100%;
+            /* The width is the width of the web page */
+        }
+    </style>
+    <br />
+    <div class="col-md-12 col-sm-12 col-md-12">
+        <div class="well well-sm">
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <img src="https://www.fakenamegenerator.com/images/sil-male.png" alt="" class="img-rounded img-responsive" />
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h4>
+                        @Model.Name.First  - @Model.Name.Last.ToString()<br />
+                        @Model.Gender.ToString()<br />
+                        @Model.Dob.Age.ToString()<br />
+                    </h4>
+                    <medium>
+
+
+                        Street  :   @Model.Location.Street.Name.ToString(); <br />
+                        City    :   @Model.Location.City.ToString();<br />
+                        State   :   @Model.Location.State.ToString();<br />
+                        Country :   @Model.Location.Country.ToString();
+
+                    </medium>
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i> @Model.Email.ToString();
+                        <br />
+                        <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
+                        <br />
+                        <i class="glyphicon glyphicon-gift"></i> @Model.Cell.ToString();
+
+                    </p>
+                </div>
+                <div class="col-md-4" style="display:block">
+                    <h1>Google Map</h1>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="nav-link text-dark" href="/User/Create">Refresh</a>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+
+            // The map, centered at Uluru
+            //Set the Latitude and Longitude of the Map
+           var myAddress = { lat: @Model.Location.Coordinates.Latitude, lng:  @Model.Location.Coordinates.Longitude};
+
+            //Create Options or set different Characteristics of Google Map
+            var mapOptions = {
+                center: myAddress,
+                zoom: 4,
+                minZoom: 4,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            //Display the Google map in the div control with the defined Options
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            //Set Marker on the Map
+            var marker = new google.maps.Marker({
+                position: myAddress,
+                animation: google.maps.Animation.BOUNCE,
+            });
+
+            marker.setMap(map);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1nPQM5a7jfr6hW4chYHKEhCSO5W6kniU&callback=initMap&libraries=&v=weekly"
+            defer></script>
+}
+
+
+
